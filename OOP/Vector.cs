@@ -1,9 +1,10 @@
 ﻿namespace OOP;
 
-interface IVector{
+interface IVector : IList<double>
+{
 
 }
-class Vector : IVector
+class Vector : List<double>, IVector
 {
 
 }

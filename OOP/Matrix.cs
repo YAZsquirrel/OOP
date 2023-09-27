@@ -1,10 +1,12 @@
 ﻿namespace OOP;
 
-interface IMatrix
+interface IMatrix : IList<IList<double>>
 {
 }
 
-class Matrix : IMatrix
+// TODO:
+// Поменять????
+class Matrix : List<IList<double>>, IMatrix
 {
 
 }
