@@ -7,19 +7,26 @@ using System.Threading.Tasks;
 namespace OOP.Functions;
 class Polynomial:IParametricFunction
 {
-    class InternalPolynomialFunction : IFunction
+    class InternalPolynomial : IFunction
     {
         public IVector a;
+        public InternalPolynomial(IVector coefs)
+        {
+            a = coefs;
+        }
         public double Value(IVector point)
         {
             double sum = 0;
-            for(int i = a.Count - 1; i >= 0; i--)
+            int deg = a.Count - 1;
+            for(int i = 0; i < a.Count-1; i--)
             {
-                sum += a[i] * Math.Pow(point[0], i);
+                sum += a[i] * Math.Pow(point[0], deg);
+                deg--;
             }
+            sum += a.Last();
             return sum;
         }
     }
-    public IFunction Bind(IVector parameters) => new InternalPolynomialFunction() { a = parameters };
+    public IFunction Bind(IVector parameters) => new InternalPolynomial(parameters);
 }
 

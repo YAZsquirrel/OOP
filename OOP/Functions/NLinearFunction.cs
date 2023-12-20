@@ -9,7 +9,11 @@ class NLinearFunction:IParametricFunction
 {
 	class InternalNLineFunction : IDifferentiableFunction
 	{
-		public IVector a;
+        public IVector a;	// коэффициенты
+        public InternalNLineFunction(IVector coefs)
+		{
+			a = coefs;
+		}
 		public double Value(IVector point)
 		{
 			double sum = 0;
@@ -24,13 +28,13 @@ class NLinearFunction:IParametricFunction
 		{
 			IVector gradient = new Vector();
 
-			for (int i = 0; i<point.Count;i++)
+			for (int i = 0; i<a.Count - 1;i++)
 			{
 				gradient.Add(point[i]);
 			}
-			gradient.Add(0);
+			gradient.Add(1);
 			return gradient;
 		}
 	}
-	public IFunction Bind(IVector parameters) => new InternalNLineFunction() { a = parameters };
+	public IFunction Bind(IVector parameters) => new InternalNLineFunction(parameters);
 }
