@@ -18,7 +18,7 @@ class Polynomial:IParametricFunction
         {
             double sum = 0;
             int deg = a.Count - 1;
-            for(int i = 0; i < a.Count-1; i--)
+            for(int i = 0; i < a.Count-1; i++)
             {
                 sum += a[i] * Math.Pow(point[0], deg);
                 deg--;

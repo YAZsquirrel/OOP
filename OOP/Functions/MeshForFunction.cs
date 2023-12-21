@@ -8,7 +8,7 @@ namespace OOP.Functions
 {
 	static class MeshForFunction
 	{
-		struct MeshParams
+		public struct MeshParams
 		{
 			public double begin_point;    // левая граница отрезка
 			public double end_point;      // правая граница отрезка
