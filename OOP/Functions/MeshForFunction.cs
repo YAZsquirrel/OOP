@@ -61,7 +61,7 @@ namespace OOP.Functions
 				point.Add(split_params[i].begin_point);
 
 			int dim_index = dimension_count - 1;
-			while (PPPoint != points_count)
+			while (PPPoint != points_count + 1)
 			{
 				Vector temp_point = new Vector();
 				temp_point.Capacity = dimension_count;

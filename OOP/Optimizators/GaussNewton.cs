@@ -23,40 +23,48 @@ namespace OOP.Optimizators
         }
         public IVector Minimize(IFunctional objective, IParametricFunction function, IVector initialParameters, IVector minimumParameters = null, IVector maximumParameters = null)
         {
-            var param = new Vector();
-            var minparam = new Vector();
-            foreach (var p in initialParameters) param.Add(p);
-            foreach (var p in initialParameters) minparam.Add(p);
-
             try
             {
                 var obj = (ILeastSquaresFunctional)objective;
 
-                
+                var param = new Vector();
+                foreach (var p in initialParameters) param.Add(p);
 
                 IFunction func = function.Bind(param);
 
-                IMatrix J = obj.Jacobian(func);
-                IVector residual = obj.Residual(func);
+                Matrix J = (Matrix)obj.Jacobian(func);
+                Vector residual = (Vector)obj.Residual(func);
 
-                //IMatrix A = J * J.Transposed();
-                //IVector b = J * residual;
+                Matrix A = J * J.Transposed();
+                Vector b = J * residual;
 
-                //IVector delta = 
+                IVector delta = solveSLAE(A, b);
 
-
-                for (int i = 0; i < maxIter; i++)
+                for (int i = 0; i < maxIter && getSquareNorm(delta) > epsilon; i++)
                 {
+                    for (int j = 0; j < param.Count; j++)
+                    {
+                        param[j] -= delta[j];
+                    }
 
+                    func = function.Bind(param);
+
+                    J = (Matrix)obj.Jacobian(func);
+                    residual = (Vector)obj.Residual(func);
+
+                    A = J * J.Transposed();
+                    b = J * residual;
+
+                    delta = solveSLAE(A, b);
                 }
-                
+                return param;
+
             }
-            catch (Exception e)
+            catch (InvalidDataException e)
             {
                 throw new InvalidDataException("This type of functions have not gradient");
             }
 
-            return param;
         }
 
         IVector solveSLAE(IMatrix A, IVector b)

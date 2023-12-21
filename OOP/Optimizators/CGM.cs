@@ -25,7 +25,7 @@ namespace OOP.Optimizators
 
             return objective.Value(fun);
         }
-        public double GoldSection(double a, double b, IDifferentiableFunctional objective, IVector initialParameters, IParametricFunction function)
+        public double GoldSection(double a, double b, IDifferentiableFunctional objective, IVector parameters, IParametricFunction function)
         {
             double phi = 1.61803398875;
 
@@ -36,7 +36,7 @@ namespace OOP.Optimizators
                 x1 = b - (b - a) / phi;
                 x2 = a + (b - a) / phi;
 
-                if (Get(x1, objective, initialParameters, function) >= Get(x2, objective, initialParameters, function))
+                if (Get(x1, objective, parameters, function) >= Get(x2, objective, parameters, function))
                     a = x1;
                 else
                     b = x2;
@@ -80,7 +80,7 @@ namespace OOP.Optimizators
             }
             catch (Exception e)
             {
-                throw new InvalidDataException("This type of functions have not gradient");
+                throw new InvalidDataException("This type of functions have not gradient", e);
             }
 
             return param;
