@@ -21,7 +21,7 @@ internal class EuclidNorm : IDifferentiableFunctional, ILeastSquaresFunctional
             Vector point = Points[i].X;
             double gradf = dif_f.Gradient(point)[i];
             double f = dif_f.Value(point) - Points[i].Y;
-
+            
             for (int n = 0; n < dim; n++)
                 grad.Add(2 * f * gradf);
         }
@@ -43,8 +43,8 @@ internal class EuclidNorm : IDifferentiableFunctional, ILeastSquaresFunctional
         for (int i = 0; i < M; i++)
         {
 
-            //var df = Gradient(function);
-            var df = diff.Gradient(Points[i].X);
+            var df = Gradient(function);
+            //var df = diff.Gradient(Points[i].X);
             for (int j = 0; j < N; j++)
             {
                 double f = function.Value(Points[i].X);
