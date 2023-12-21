@@ -3,6 +3,8 @@
 interface IMatrix
 {
     double this[int i, int j] { get; set; }
+    Matrix Transposed();
+
 }
 
 public class Matrix : IMatrix
