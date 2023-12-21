@@ -1,10 +1,9 @@
 ﻿namespace OOP;
-
-interface IMatrix
+ 
+public interface IMatrix
 {
     double this[int i, int j] { get; set; }
-    Matrix Transposed();
-
+    IMatrix Transposed { get; }
 }
 
 public class Matrix : IMatrix
@@ -22,15 +21,18 @@ public class Matrix : IMatrix
         set => _matrix[i,j] = value;
     }
 
-    public Matrix Transposed()
+    public IMatrix Transposed
     {
-        Matrix TA = new Matrix(RowCount, ColumnCount);
+        get
+        {
+            Matrix TA = new Matrix(RowCount, ColumnCount);
 
-        for (int i = 0; i < RowCount; i++)
-            for (int j = 0; j < ColumnCount; j++)
-                TA[j,i] = _matrix[i,j];
+            for (int i = 0; i < RowCount; i++)
+                for (int j = 0; j < ColumnCount; j++)
+                    TA[j, i] = _matrix[i, j];
 
-        return TA;
+            return TA;
+        }
     }
 
     public static Matrix operator*(Matrix a, Matrix b)
