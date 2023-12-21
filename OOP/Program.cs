@@ -11,7 +11,9 @@ namespace OOP
 
         static void Main(string[] args)
         {
-            var optimizer = new CGM();
+            //var optimizer = new MonteCarlo();
+            //var optimizer = new CGM();
+            var optimizer = new GaussNewton();
             var initial = new Vector();
             initial.Add(1);
             initial.Add(1);
@@ -19,7 +21,7 @@ namespace OOP
             Vector mesh = MeshForFunction.readLineBorders(path + "Nlinear.txt");
             List<(Vector x, double f)> points = MeshForFunction.BuildMesh(path + "Nlinear.txt");
 
-            var functinal = new EuclidNorm() { Points = points };
+            var functinal = new EuclidNorm() { Points = points, ParametersCount = initial.Count };
             var fun = new LinearFunction();
 
             var res = optimizer.Minimize(functinal, fun, initial);

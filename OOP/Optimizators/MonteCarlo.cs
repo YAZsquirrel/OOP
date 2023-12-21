@@ -20,7 +20,8 @@ namespace OOP.Optimizators
             var fun = function.Bind(param);
             var currentmin = objective.Value(fun);
             var rand = new Random(0);
-            for (int i = 0; i < MaxIter; i++)
+            int i;
+            for (i = 0; i < MaxIter; i++)
             {
                 for (int j = 0; j < param.Count; j++) param[j] = rand.NextDouble();
                 var f = objective.Value(function.Bind(param));
@@ -30,6 +31,9 @@ namespace OOP.Optimizators
                     for (int j = 0; j < param.Count; j++) minparam[j] = param[j];
                 }
             }
+
+            Console.WriteLine($"MonteCarlo calculations are done on iteration = {i}");
+
             return minparam;
         }
     }

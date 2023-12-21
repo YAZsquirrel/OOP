@@ -10,7 +10,7 @@ namespace OOP.Optimizators
 {
     internal class CGM : IOptimizator
     {
-        private double epsilon = 1e-7;
+        private double epsilon = 1e-14;
         private int maxIter = 10000;
         public double Get(double lambda, IDifferentiableFunctional objective, IVector parameters, IParametricFunction function)
         {
@@ -51,21 +51,24 @@ namespace OOP.Optimizators
             var minparam = new Vector();
             foreach (var p in initialParameters) param.Add(p);
             foreach (var p in initialParameters) minparam.Add(p);
+            double functional = objective.Value(function.Bind(param)), prevFunctional, diff = double.MaxValue;
+            int i;
 
             try
             {
                 var obj = (IDifferentiableFunctional)objective;
 
-                for (int i = 0; i < maxIter; i++)
-                {
-                    var lambda = GoldSection(0, 10, obj, initialParameters, function);
+                for (i = 0; i < maxIter && diff > epsilon; i++)
+                {                    
+                    var lambda = GoldSection(0, 10, obj, param, function);
 
                     for (int j = 0; j < param.Count; j++)
                     {
                         param[j] = minparam[j] - lambda * obj.Gradient(function.Bind(minparam))[j];
                     }
 
-                    var functional = objective.Value(function.Bind(param));
+                    prevFunctional = functional;
+                    functional = objective.Value(function.Bind(param));
 
                     if (functional > epsilon)
                     {
@@ -75,7 +78,7 @@ namespace OOP.Optimizators
                     {
                         break;
                     }
-
+                    diff = Math.Abs(prevFunctional - functional);
                 }
             }
             catch (Exception e)
@@ -83,7 +86,9 @@ namespace OOP.Optimizators
                 throw new InvalidDataException("This type of functions have not gradient", e);
             }
 
-            return param;
+            Console.WriteLine($"CGM's calculations are done on diff = {diff}, iteration = {i}");
+
+            return minparam;
         }
     }
 }

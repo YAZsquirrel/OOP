@@ -12,7 +12,7 @@ internal class EuclidNorm : IDifferentiableFunctional, ILeastSquaresFunctional
             throw new InvalidDataException($"Function {nameof(function)} is not differentiable (does not implement IDifferentiableFunction)");
         if (function is null)
             throw new NullReferenceException($"{nameof(function)} was null.");
-        int dim = Parameters.Count;
+        int dim = ParametersCount;
 
         Vector grad = new Vector();
 
@@ -36,7 +36,7 @@ internal class EuclidNorm : IDifferentiableFunctional, ILeastSquaresFunctional
             throw new ArgumentException($"{nameof(function)} was not IDifferentiableFunction");
 
         int M = Points.Count;
-        int N = Parameters.Count;
+        int N = ParametersCount;
         Matrix J = new(M, N);
 
         for (int i = 0; i < M; i++)
@@ -69,7 +69,7 @@ internal class EuclidNorm : IDifferentiableFunctional, ILeastSquaresFunctional
     }
 
     public List<(Vector X, double Y)> Points { get; set; } = new List<(Vector X, double Y)>();
-    public List<double> Parameters { get; set; } = new();
+    public int ParametersCount { get; set; } 
 
     public double Value(IFunction function)
     {

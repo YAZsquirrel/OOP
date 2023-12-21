@@ -35,7 +35,7 @@ namespace OOP.Optimizators
                 Matrix J = (Matrix)obj.Jacobian(func);
                 Vector residual = (Vector)obj.Residual(func);
 
-                Matrix A = J * J.Transposed();
+                Matrix A = J * J.Transposed;
                 Vector b = J * residual;
 
                 IVector delta = solveSLAE(A, b);
@@ -52,7 +52,7 @@ namespace OOP.Optimizators
                     J = (Matrix)obj.Jacobian(func);
                     residual = (Vector)obj.Residual(func);
 
-                    A = J * J.Transposed();
+                    A = J * J.Transposed;
                     b = J * residual;
 
                     delta = solveSLAE(A, b);
