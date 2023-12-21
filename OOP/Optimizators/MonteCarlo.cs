@@ -11,6 +11,7 @@ namespace OOP.Optimizators
     internal class MonteCarlo
     {
         public int MaxIter = 100000;
+        public double[] Range { get; set; }
         public IVector Minimize(IFunctional objective, IParametricFunction function, IVector initialParameters, IVector minimumParameters = null, IVector maximumParameters = null)
         {
             var param = new Vector();
@@ -23,7 +24,7 @@ namespace OOP.Optimizators
             int i;
             for (i = 0; i < MaxIter; i++)
             {
-                for (int j = 0; j < param.Count; j++) param[j] = rand.NextDouble();
+                for (int j = 0; j < param.Count; j++) param[j] = Range[0] + rand.NextDouble() * (Range[1] - Range[0]);
                 var f = objective.Value(function.Bind(param));
                 if (f < currentmin)
                 {

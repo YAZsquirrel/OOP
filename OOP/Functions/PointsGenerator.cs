@@ -11,7 +11,8 @@ namespace OOP.Functions
     {
         Linear,
         Quad,
-        Cube
+        Cube,
+        Trigonometric
     }
     public static class PointsGenerator
     {
@@ -21,10 +22,14 @@ namespace OOP.Functions
         private static double GetNoiseFuncValue(IVector x)
         {
             double result = 0;
+            Random random = new Random();
+
+            if (type == FunctionType.Trigonometric)
+                return (1 - (random.NextDouble() * 2d - 1d) * alpha) * Math.Sin(x[0]);
 
             for (int i = 0, d = (int)type + 1; i <= (int)type + 1; i++, d--)
             {
-                result += (1 - alpha) * coef[i] * Math.Pow(x[0], d);
+                result += (1 - (random.NextDouble() * 2d - 1d) * alpha) * coef[i] * Math.Pow(x[0], d);
             }
 
             return result;
@@ -54,7 +59,7 @@ namespace OOP.Functions
             coef = new Vector();
             for (int i = 0, d = (int)type + 1; i <= (int)type + 1; i++, d--)
             {
-                coef.Add(random.Next(1, 5));
+                coef.Add(random.Next(-7, 7));
                 Console.Write($"{coef[i]}x^{d}\t");
             }
 
@@ -71,7 +76,7 @@ namespace OOP.Functions
             double[] h = new double[dimension_count];
 
             for (int i = 0; i < dimension_count; i++)
-                h[i] = (split_params[i].end_point - split_params[i].begin_point) / split_params[i].count;
+                h[i] = Math.Abs(split_params[i].end_point - split_params[i].begin_point) / split_params[i].count;
 
             Vector point = new Vector();
             for (int i = 0; i < dimension_count; i++)
