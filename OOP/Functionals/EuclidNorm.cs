@@ -12,18 +12,17 @@ internal class EuclidNorm : IDifferentiableFunctional, ILeastSquaresFunctional
             throw new InvalidDataException($"Function {nameof(function)} is not differentiable (does not implement IDifferentiableFunction)");
         if (function is null)
             throw new NullReferenceException($"{nameof(function)} was null.");
-        int dim = Points[0].X.Count;
+        int dim = Parameters.Count;
 
         Vector grad = new Vector();
 
-        for (int i = 0; i < Points.Count; i++)
+        for (int i = 0; i < dim; i++)
         {
             Vector point = Points[i].X;
             double gradf = dif_f.Gradient(point)[i];
             double f = dif_f.Value(point) - Points[i].Y;
             
-            for (int n = 0; n < dim; n++)
-                grad.Add(2 * f * gradf);
+            grad.Add(2 * f * gradf);
         }
 
         return grad;
