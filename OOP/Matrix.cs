@@ -1,6 +1,6 @@
 ﻿namespace OOP;
 
-interface IMatrix : IList<IList<double>>
+interface IMatrix : IList<IList<double>> 
 {
 }
 
