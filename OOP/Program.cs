@@ -11,9 +11,9 @@ namespace OOP
 
         static void Main(string[] args)
         {
-            //var optimizer = new MonteCarlo();
+            var optimizer = new MonteCarlo();
             //var optimizer = new CGM();
-            var optimizer = new GaussNewton();
+            //var optimizer = new GaussNewton();
             var initial = new Vector();
             initial.Add(1);
             initial.Add(1);
