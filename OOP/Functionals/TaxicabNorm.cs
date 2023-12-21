@@ -6,13 +6,14 @@ namespace OOP.Functionals;
 class TaxicabNorm : IDifferentiableFunctional
 {
     public List<(Vector X, double Y)> Points { get; set; } = new List<(Vector X, double Y)>();
+    public int ParametersCount { get; set; }
     public IVector Gradient(IFunction function)
     {
         if (function is not IDifferentiableFunction dif_f)
             throw new InvalidDataException("Function is not differentiable (does not implement IDifferentiableFunction)");
         if (function is null)
             throw new NullReferenceException($"{nameof(function)} was null.");
-        int dim = Points[0].X.Count;
+        int dim = ParametersCount;
 
         Vector grad = new Vector();
 

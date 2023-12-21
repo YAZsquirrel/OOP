@@ -12,7 +12,7 @@ internal class EuclidNorm : IDifferentiableFunctional, ILeastSquaresFunctional
             throw new InvalidDataException($"Function {nameof(function)} is not differentiable (does not implement IDifferentiableFunction)");
         if (function is null)
             throw new NullReferenceException($"{nameof(function)} was null.");
-        int dim = Parameters.Count;
+        int dim = ParametersCount;
 
         Vector grad = new Vector();
 
@@ -22,7 +22,7 @@ internal class EuclidNorm : IDifferentiableFunctional, ILeastSquaresFunctional
             double gradf = dif_f.Gradient(point)[i];
             double f = dif_f.Value(point) - Points[i].Y;
             
-            grad.Add(2 * f * gradf);
+           grad.Add(2 * f * gradf);
         }
 
         return grad;
@@ -35,21 +35,17 @@ internal class EuclidNorm : IDifferentiableFunctional, ILeastSquaresFunctional
         if (function is not IDifferentiableFunction diff)
             throw new ArgumentException($"{nameof(function)} was not IDifferentiableFunction");
 
-        int M = Points.Count;
-        int N = Parameters.Count;
-        Matrix J = new(M, N);
+        int rows = Points.Count;
+        int columns = ParametersCount;
+        Matrix J = new(rows, columns);
 
-        for (int i = 0; i < M; i++)
+        for (int i = 0; i < rows; i++) // ri
         {
-
-            var df = Gradient(function);
-            //var df = diff.Gradient(Points[i].X);
-            for (int j = 0; j < N; j++)
-            {
-                double f = function.Value(Points[i].X);
+            var df = diff.Gradient(Points[i].X);
+            double f = function.Value(Points[i].X);
+         
+            for (int j = 0; j < columns; j++) // bj 
                 J[i, j] = 2d * f * df[j];
-
-            }
         }
 
         return J;
@@ -69,7 +65,7 @@ internal class EuclidNorm : IDifferentiableFunctional, ILeastSquaresFunctional
     }
 
     public List<(Vector X, double Y)> Points { get; set; } = new List<(Vector X, double Y)>();
-    public List<double> Parameters { get; set; } = new();
+    public int ParametersCount { get; set; }
 
     public double Value(IFunction function)
     {
