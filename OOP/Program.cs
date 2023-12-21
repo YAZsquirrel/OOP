@@ -16,14 +16,14 @@ namespace OOP
             initial.Add(1);
             initial.Add(1);
 
-            Vector mesh = MeshForFunction.readLineBorders(path + "Nlinear.txt");
-            List<(Vector x, double f)> points = MeshForFunction.BuildMesh(path + "Nlinear.txt");
+            //Vector mesh = MeshForFunction.readLineBorders(path + "Nlinear.txt");
+            //List<(Vector x, double f)> points = MeshForFunction.BuildMesh(path + "Nlinear.txt");
 
-            var functinal = new InfNorm() { Points = points };
-            var fun = new LinearFunction();
+            //var functinal = new InfNorm() { Points = points };
+            //var fun = new LinearFunction();
 
-            var res = optimizer.Minimize(functinal, fun, initial);
-            Console.WriteLine($"a={res[0]},b={res[1]}");
+            //var res = optimizer.Minimize(functinal, fun, initial);
+            //Console.WriteLine($"a={res[0]},b={res[1]}");
         }
     }
 }
