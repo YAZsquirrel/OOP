@@ -8,13 +8,12 @@ class TaxicabNorm : IDifferentiableFunctional
     public List<(Vector X, double Y)> Points { get; set; } = new List<(Vector X, double Y)>();
     public IVector Gradient(IFunction function)
     {
-        if (function is not IDifferentiableFunction)
+        if (function is not IDifferentiableFunction dif_f)
             throw new InvalidDataException("Function is not differentiable (does not implement IDifferentiableFunction)");
         if (function is null)
             throw new NullReferenceException($"{nameof(function)} was null.");
         int dim = Points[0].X.Count;
 
-        var dif_f = function as IDifferentiableFunction;
         Vector grad = new Vector();
 
         for (int i = 0; i < Points.Count; i++)

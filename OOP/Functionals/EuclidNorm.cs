@@ -1,4 +1,5 @@
 ﻿using OOP.Functions;
+using OOP;
 
 namespace OOP.Functionals;
 
@@ -7,13 +8,12 @@ internal class EuclidNorm : IDifferentiableFunctional, ILeastSquaresFunctional
 {
     public IVector Gradient(IFunction function)
     {
-        if (function is not IDifferentiableFunction)
-            throw new InvalidDataException("Function is not differentiable (does not implement IDifferentiableFunction)");
+        if (function is not IDifferentiableFunction dif_f)
+            throw new InvalidDataException($"Function {nameof(function)} is not differentiable (does not implement IDifferentiableFunction)");
         if (function is null)
             throw new NullReferenceException($"{nameof(function)} was null.");
         int dim = Points[0].X.Count;
 
-        var dif_f = function as IDifferentiableFunction;
         Vector grad = new Vector();
 
         for (int i = 0; i < Points.Count; i++)
@@ -31,7 +31,29 @@ internal class EuclidNorm : IDifferentiableFunctional, ILeastSquaresFunctional
 
     public IMatrix Jacobian(IFunction function)
     {
-        throw new NotImplementedException();
+        
+        if (function is null) throw new NullReferenceException($"{nameof(function)} was null.");
+        if (function is not IDifferentiableFunction diff)
+            throw new ArgumentException($"{nameof(function)} was not IDifferentiableFunction");
+
+        int M = Points.Count;
+        int N = Parameters.Count;
+        Matrix J = new(M, N);
+
+        for (int i = 0; i < M; i++)
+        {
+
+            //var df = Gradient(function);
+            var df = diff.Gradient(Points[i].X);
+            for (int j = 0; j < N; j++)
+            {
+                double f = function.Value(Points[i].X);
+                J[i, j] = 2d * f * df[j];
+
+            }
+        }
+
+        return J;
     }
 
     public IVector Residual(IFunction function)
@@ -48,6 +70,7 @@ internal class EuclidNorm : IDifferentiableFunctional, ILeastSquaresFunctional
     }
 
     public List<(Vector X, double Y)> Points { get; set; } = new List<(Vector X, double Y)>();
+    public List<double> Parameters { get; set; } = new();
 
     public double Value(IFunction function)
     {
