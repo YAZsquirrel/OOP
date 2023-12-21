@@ -27,7 +27,7 @@ public class Matrix : IMatrix
     {
         get
         {
-            Matrix TA = new Matrix(RowCount, ColumnCount);
+            Matrix TA = new Matrix(ColumnCount, RowCount);
 
             for (int i = 0; i < RowCount; i++)
                 for (int j = 0; j < ColumnCount; j++)
@@ -51,7 +51,7 @@ public class Matrix : IMatrix
         for (int i = 0; i < N; i++)
             for (int j = 0; j < M; j++)
                 for (int k = 0; k < S; k++)
-                    A[i,j] = a[i, k] * b[k, j];
+                    A[i,j] += a[i, k] * b[k, j];
         return A;
     }
 

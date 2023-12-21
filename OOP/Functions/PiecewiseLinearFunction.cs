@@ -59,7 +59,7 @@ class PiecewiseLinearFunction : IParametricFunction
 
             if (point[0] < Borders_local[0] || point[0] > Borders_local.Last()) return 0;
             int i;
-            for (i = 0; i < Borders_local.Count - 1; i++)
+            for (i = 1; i < Borders_local.Count - 1; i++)
             {
                 if (point[0] >= Borders_local[i])
                 {
@@ -67,7 +67,7 @@ class PiecewiseLinearFunction : IParametricFunction
                     return val;
                 }
             }
-            i--;
+            //i--;
             val = a[2 * (i - 1)] * point[0] + a[2 * (i - 1) + 1];
             return val;
         }

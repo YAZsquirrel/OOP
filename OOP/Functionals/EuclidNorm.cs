@@ -37,7 +37,7 @@ internal class EuclidNorm : IDifferentiableFunctional, ILeastSquaresFunctional
 
         int rows = Points.Count;
         int columns = ParametersCount;
-        Matrix J = new(rows, columns);
+        Matrix J = new(columns, rows);
 
         for (int i = 0; i < rows; i++) // ri
         {
@@ -45,7 +45,7 @@ internal class EuclidNorm : IDifferentiableFunctional, ILeastSquaresFunctional
             double f = function.Value(Points[i].X);
          
             for (int j = 0; j < columns; j++) // bj 
-                J[i, j] = 2d * f * df[j];
+                J[j, i] = 2d * f * df[j];
         }
 
         return J;
@@ -58,7 +58,7 @@ internal class EuclidNorm : IDifferentiableFunctional, ILeastSquaresFunctional
         {
             var f = function.Value(point.X);
             var s = f - point.Y;
-            res.Add(s * s / point.Y / point.Y);
+            res.Add(s * s);
         }
 
         return res;
