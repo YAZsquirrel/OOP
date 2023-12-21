@@ -4,7 +4,7 @@ interface IVector : IList<double>
 {
 
 }
-class Vector : List<double>, IVector
+public class Vector : List<double>, IVector
 {
 
 }
