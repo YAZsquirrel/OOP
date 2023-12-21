@@ -11,6 +11,16 @@ namespace OOP.Optimizators
     internal class GaussNewton : IOptimizator
     {
         private int maxIter = 10000;
+        private double epsilon = 1e-8;
+        private double getSquareNorm(IVector vector)
+        {
+            double result = 0;
+            foreach (var v in vector) 
+            {
+                result += v * v;
+            }
+            return result;
+        }
         public IVector Minimize(IFunctional objective, IParametricFunction function, IVector initialParameters, IVector minimumParameters = null, IVector maximumParameters = null)
         {
             var param = new Vector();
