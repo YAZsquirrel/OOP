@@ -11,9 +11,11 @@ public class Matrix : IMatrix
     private readonly double[,] _matrix;
     public int RowCount {  get; init; }
     public int ColumnCount {  get; init; }
-    public Matrix(int N, int M)
+    public Matrix(int rows, int columns)
     {
-        _matrix = new double[N, M];
+        RowCount = rows;
+        ColumnCount = columns;
+        _matrix = new double[rows, columns];
     }
     public double this[int i, int j]
     {
